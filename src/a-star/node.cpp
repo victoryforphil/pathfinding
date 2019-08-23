@@ -7,6 +7,9 @@ Node::Node(uint64_t id, Math::Vector2 pos, std::shared_ptr<Node> parent, std::sh
     m_pos = pos;
     m_parent = parent;
     m_goal = goal;
+    m_gCost = 0;
+    m_hCost = 0;
+    m_fCost = 0;
 }
 
 void Node::UpdateParent(std::shared_ptr<Node> parent){
@@ -17,7 +20,11 @@ int Node::UpdateCosts(){
     // Set this nodes cost to the parents cost + 1, 
     // as this represents one more node along the path
     // START + 1 + 2 + 3 + 4 + 5 
-    m_gCost = m_parent->GetGCost() + 1; 
+    if(m_parent != nullptr){
+         m_gCost = m_parent->GetGCost() + 1; 
+    }else{
+        m_gCost = 0;
+    }
     // Calculate the distance from target as a simple huristic (rip spelling)
     m_hCost = m_pos.GetDistanceInt(m_goal->GetPos());
 

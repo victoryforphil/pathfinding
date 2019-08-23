@@ -8,7 +8,7 @@
 #include "node.hpp"
 
 #include "src/math/vector2.hpp"
-
+#include "map.hpp"
 namespace AStar{
     class AStarCompute
     {
@@ -26,7 +26,7 @@ namespace AStar{
 
     public:
         
-        std::vector<Math::Vector2> Compute(int map[10][10], Math::Vector2 start, Math::Vector2 goal);
+        std::vector<Math::Vector2> Compute(Map* map, Math::Vector2 start, Math::Vector2 goal);
         std::shared_ptr<Node> CreateNode(Math::Vector2 position,  std::shared_ptr<Node> parent);
         
     };

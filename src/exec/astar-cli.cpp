@@ -1,6 +1,7 @@
 #include <iostream>
 #include "src/a-star/astar.hpp"
 #include "src/math/vector2.hpp"
+#include "src/a-star/map.hpp"
 int map[10][10] = 
 {
     {1,1,1,1,1,1,1,1,1,1},
@@ -19,39 +20,25 @@ int main(){
 
     // Print Grid
 
-
-    for (int (&row)[10] : map){
-        for (int & cell : row){
-            std::cout << cell << " ";
-        }
-        std::cout << std::endl;
-    }
-
     AStar::AStarCompute compute;
 
-    std::vector<Math::Vector2> path = compute.Compute(map, Math::Vector2(1,1), Math::Vector2(8,8));
+    AStar::Map map;
 
+    map.Create(Math::Vector2(80,40));
+    map.AddObject(Math::Vector2(0,2), Math::Vector2(76,1));
+    map.AddObject(Math::Vector2(4,4), Math::Vector2(76,1));
+    map.AddObject(Math::Vector2(0,6), Math::Vector2(76,1));
+    map.AddObject(Math::Vector2(4,8), Math::Vector2(76,1));
+    map.AddObject(Math::Vector2(0,10), Math::Vector2(76,1));
+    map.AddObject(Math::Vector2(4,12), Math::Vector2(76,1));
+
+    std::vector<Math::Vector2> path = compute.Compute(&map, Math::Vector2(1,1),Math::Vector2(70,35));
     for(int i=0;i<path.size();i++){
-        map[path[i].GetY()][path[i].GetX()] = 9;
+        map.DrawPoint(path[i], 2);
+        
     }
-    for (int (&row)[10] : map){
-        for (int & cell : row){
-            
-            switch(cell){
-                case 1:
-                    std::cout << "#" << " ";
-                    break;
-
-                case 9:
-                    std::cout << "*" << " ";
-                    break;
-                default:
-                    std::cout << " " << " ";
-                    break;
-            }
-        }
-        std::cout << std::endl;
-    }
+    map.Draw();
+    
     std::cin.get();
 
     return 0;

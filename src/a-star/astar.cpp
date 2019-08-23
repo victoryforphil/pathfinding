@@ -9,7 +9,7 @@ std::shared_ptr<Node> AStarCompute::CreateNode(Math::Vector2 pos, std::shared_pt
     return _created;
 }
 
- std::vector<Math::Vector2> AStarCompute::Compute(int map[10][10], Math::Vector2 start, Math::Vector2 goal){
+ std::vector<Math::Vector2> AStarCompute::Compute(Map* map, Math::Vector2 start, Math::Vector2 goal){
 
     //Created end and start node
  std::vector<Math::Vector2> _path;
@@ -20,12 +20,13 @@ std::shared_ptr<Node> AStarCompute::CreateNode(Math::Vector2 pos, std::shared_pt
 
     uint64_t _iterations = 0;
     while(m_open.size() > 0 ){
-        std::cout << " - m_open=" << m_open.size() << std::endl;
+       // std::cout << " - m_open=" << m_open.size() << std::endl;
         std::shared_ptr<Node> _currentNode = m_open[0];
         int _currentIndex = 0;
 
         for(int i=0;i<m_open.size();i++){
             std::shared_ptr<Node> _item = m_open[i];
+            map->DrawPoint(_item->GetPos(), 3);
             if(_item->GetFCost() < _currentNode->GetFCost()){
                 _currentNode = _item;
                 _currentIndex = i;
@@ -42,7 +43,7 @@ std::shared_ptr<Node> AStarCompute::CreateNode(Math::Vector2 pos, std::shared_pt
                 _path.push_back(_current->GetPos());
                 _current = _current->GetParent();
             }
-
+            std::cout << "Took: " << _iterations << " steps" << std::endl;
             return _path;
         }
 
@@ -63,17 +64,15 @@ std::shared_ptr<Node> AStarCompute::CreateNode(Math::Vector2 pos, std::shared_pt
             Math::Vector2 _check = _checkPositions[i];
             Math::Vector2 _nodePosition = _currentNode->GetPos() + _check;
 
-            if(_nodePosition.GetX() >= 10 || _nodePosition.GetX() < 0 ||
-                _nodePosition.GetY() >= 10 || _nodePosition.GetY() < 0 ){
+            if(_nodePosition.GetX() >= map->GetSize().GetX() || _nodePosition.GetX() < 0 ||
+                _nodePosition.GetY() >= map->GetSize().GetY() || _nodePosition.GetY() < 0 ){
                     continue;
             }
 
-            if(map[_nodePosition.GetY()][_nodePosition.GetX()] != 0){
-                
-               
-            }else{
+            if(map->Get(_nodePosition) == 0){
                 std::shared_ptr<Node> _newNode = CreateNode(_nodePosition, _currentNode);
                 _children.push_back(_newNode);
+               
             }
 
             
@@ -82,7 +81,7 @@ std::shared_ptr<Node> AStarCompute::CreateNode(Math::Vector2 pos, std::shared_pt
 
         
         for(int i=0;i<_children.size(); i++){
-             bool dontAdd = false;
+            bool dontAdd = false;
             std::shared_ptr<Node> _child = _children[i];
             for(int j=0;j<m_closed.size();j++){
                  std::shared_ptr<Node> _closedChild = m_closed[j];
@@ -95,7 +94,7 @@ std::shared_ptr<Node> AStarCompute::CreateNode(Math::Vector2 pos, std::shared_pt
             for(int j=0;j<m_open.size();j++){
                 std::shared_ptr<Node> _openNode = m_open[j];
                 if(_child->IsEqual(_openNode)){
-                     _child->UpdateParent(_openNode);
+                     //_child->UpdateParent(_openNode);
                      dontAdd = true;
                      continue;
                 }

@@ -32,11 +32,11 @@ int Vector2::GetY(){
 
 int Vector2::GetDistanceInt(Vector2 other){
     // Say it with me now kids, A squared + B square is C squared
-    int a = pow(m_x, other.GetX());
-    int b = pow(m_y, other.GetY());
-    int c = a + b;
+    double a = pow(abs(m_x - other.GetX()) , 2);
+    double b = pow(abs(m_y -  other.GetY()), 2);
+    double c = a + b;
 
-    return sqrt(c);
+    return c;
 }
 
 
