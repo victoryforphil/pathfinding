@@ -4,4 +4,5 @@ cc_library(
     srcs = ["astar.cpp", "node.cpp"],
     hdrs = ["astar.hpp", "node.hpp"],
     deps = ["//src/math:vector2"],
+    visibility = ["//visibility:public"]
 )

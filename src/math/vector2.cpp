@@ -38,3 +38,8 @@ int Vector2::GetDistanceInt(Vector2 other){
 
     return sqrt(c);
 }
+
+
+Vector2 Vector2::operator+(const Vector2 &b){
+    return Vector2(m_x + b.m_x, m_y + b.m_y);
+}

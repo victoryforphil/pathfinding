@@ -17,7 +17,9 @@ namespace Math{
         int GetX();
         int GetY();
         int GetDistanceInt(Vector2 other);  
-        ~Vector2();
+        Vector2 operator +(const Vector2 &b);
+        
+        
     };
 
     

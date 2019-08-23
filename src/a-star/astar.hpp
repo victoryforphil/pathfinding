@@ -7,22 +7,28 @@
 
 #include "node.hpp"
 
-#include "math/vector2.hpp"
+#include "src/math/vector2.hpp"
 
 namespace AStar{
-    class AStar
+    class AStarCompute
     {
     private:
         Math::Vector2 m_gridSize;
-        Math::Vector2 m_start;
-        Math::Vector2 m_goal;
+        std::shared_ptr<Node> m_start;
+        std::shared_ptr<Node> m_goal;
 
-        std::vector<
+
+        std::vector<std::shared_ptr<Node>> m_closed;
+        std::vector<std::shared_ptr<Node>> m_open;
+
+        uint64_t m_node_count;
 
 
     public:
-        AStar(/* args */);
-        ~AStar();
+        
+        std::vector<Math::Vector2> Compute(int map[10][10], Math::Vector2 start, Math::Vector2 goal);
+        std::shared_ptr<Node> CreateNode(Math::Vector2 position,  std::shared_ptr<Node> parent);
+        
     };
     
     

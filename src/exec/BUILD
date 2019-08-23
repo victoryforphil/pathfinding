@@ -3,5 +3,5 @@ cc_binary(
     name = "astar-cli",
     srcs = ["astar-cli.cpp"],
     copts = [],
-    deps = [],
+    deps = ["//src/a-star:astar", "//src/math:vector2"],
 )
